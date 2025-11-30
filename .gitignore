@@ -1,0 +1,96 @@
+# ----------------------------
+# Python
+# ----------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+*.egg
+
+# Byte-compiled / optimized / DLL files
+*.pyc
+*.pyd
+*.pyo
+*$py.class
+
+# Unit test / coverage
+.coverage
+htmlcov/
+.cache/
+pytest_cache/
+.tox/
+.nox/
+
+# ----------------------------
+# Poetry
+# ----------------------------
+# Do NOT ignore pyproject.toml or poetry.lock (keep those)
+poetry.toml
+.venv/
+.venv*/
+*.env
+
+# ----------------------------
+# Logs
+# ----------------------------
+*.log
+logs/
+*.out
+*.err
+
+# ----------------------------
+# OS-specific files
+# ----------------------------
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+# ----------------------------
+# IDE / Editor cruft
+# ----------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ----------------------------
+# Build / Dist artifacts
+# ----------------------------
+build/
+dist/
+pip-wheel-metadata/
+
+# ----------------------------
+# MongoDB dump files (optional)
+# ----------------------------
+dump/
+*.bson
+*.json
+
+# ----------------------------
+# Local data & simulation output
+# ----------------------------
+tmp/
+scratch/
+*.bak
+
+# ----------------------------
+# Virtualenvs created outside Poetry
+# ----------------------------
+.env/
+env/
+venv/
+
+# ----------------------------
+# Cached config or generated data
+# ----------------------------
+*.cache
+.cache/

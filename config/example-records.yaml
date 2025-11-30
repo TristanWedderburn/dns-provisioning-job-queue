@@ -1,0 +1,12 @@
+zone_id: Z123456789EXAMPLE
+records:
+  - name: api.example.com
+    type: A
+    ttl: 60
+    values:
+      - 10.0.1.23
+  - name: mongo.example.com
+    type: CNAME
+    ttl: 60
+    values:
+      - cluster-abc123.mongodb.net

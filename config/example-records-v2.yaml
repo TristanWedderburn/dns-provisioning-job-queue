@@ -1,0 +1,12 @@
+zone_id: Z123456789EXAMPLE
+records:
+  - name: api.example.com
+    type: A
+    ttl: 120 # changed TTL
+    values:
+      - 10.0.1.42     # changed IP
+  - name: mongo.example.com
+    type: CNAME
+    ttl: 60
+    values:
+      - cluster-xyz789.mongodb.net   # changed CNAME target

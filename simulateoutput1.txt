@@ -1,0 +1,79 @@
+tristanwedderburn@Mac dns-provisioning-job-queue % poetry run python3 -m dns_queue.simulate
+2025-11-30 16:44:45,841 | INFO | __main__ | Starting DNS control-plane simulation
+2025-11-30 16:44:45,843 | INFO | __main__ | Clearing collection dns_control_plane.dns_records
+2025-11-30 16:44:45,871 | INFO | dns_queue.executor | Dispatcher dispatcher-1 starting
+2025-11-30 16:44:45,871 | INFO | __main__ | === Phase 1: Applying config/example-records.yaml ===
+2025-11-30 16:44:45,877 | INFO | dns_queue.executor | Dispatcher dispatcher-1 picked up job for record 692cbacda696033dd2038d41 (target_version=1)
+2025-11-30 16:44:45,881 | INFO | dns_queue.providers | [MockProvider] Would UPSERT A api.example.com (TTL=60) values=['10.0.1.23'] in zone=Z123456789EXAMPLE
+2025-11-30 16:44:45,882 | INFO | dns_queue.executor | Successfully reconciled record 692cbacda696033dd2038d41 to version 1
+2025-11-30 16:44:45,882 | INFO | dns_queue.executor | Dispatcher dispatcher-1 picked up job for record 692cbacda696033dd2038d42 (target_version=1)
+2025-11-30 16:44:45,883 | INFO | dns_queue.providers | [MockProvider] Would UPSERT CNAME mongo.example.com (TTL=60) values=['cluster-abc123.mongodb.net'] in zone=Z123456789EXAMPLE
+2025-11-30 16:44:45,884 | INFO | dns_queue.executor | Successfully reconciled record 692cbacda696033dd2038d42 to version 1
+2025-11-30 16:44:45,884 | INFO | __main__ | === After Phase 1 reconciliation ===
+2025-11-30 16:44:45,884 | INFO | __main__ | Current dns_records documents:
+{'_id': '692cbacda696033dd2038d41',
+ 'createdAt': datetime.datetime(2025, 11, 30, 21, 44, 45, 872000),
+ 'spec': {'desiredState': 'PRESENT',
+          'name': 'api.example.com',
+          'ttl': 60,
+          'type': 'A',
+          'values': ['10.0.1.23'],
+          'version': 1,
+          'zoneId': 'Z123456789EXAMPLE'},
+ 'status': {'lastError': None,
+            'lastReconciledAt': datetime.datetime(2025, 11, 30, 21, 44, 45, 881000),
+            'observedVersion': 1,
+            'reconcileStatus': 'IN_SYNC'},
+ 'updatedAt': datetime.datetime(2025, 11, 30, 21, 44, 45, 881000)}
+{'_id': '692cbacda696033dd2038d42',
+ 'createdAt': datetime.datetime(2025, 11, 30, 21, 44, 45, 872000),
+ 'spec': {'desiredState': 'PRESENT',
+          'name': 'mongo.example.com',
+          'ttl': 60,
+          'type': 'CNAME',
+          'values': ['cluster-abc123.mongodb.net'],
+          'version': 1,
+          'zoneId': 'Z123456789EXAMPLE'},
+ 'status': {'lastError': None,
+            'lastReconciledAt': datetime.datetime(2025, 11, 30, 21, 44, 45, 883000),
+            'observedVersion': 1,
+            'reconcileStatus': 'IN_SYNC'},
+ 'updatedAt': datetime.datetime(2025, 11, 30, 21, 44, 45, 883000)}
+2025-11-30 16:44:45,890 | INFO | __main__ | === Phase 2: Applying config/example-records-v2.yaml ===
+2025-11-30 16:44:45,893 | INFO | dns_queue.executor | Dispatcher dispatcher-1 picked up job for record 692cbacda696033dd2038d41 (target_version=2)
+2025-11-30 16:44:45,894 | INFO | dns_queue.providers | [MockProvider] Would UPSERT A api.example.com (TTL=120) values=['10.0.1.42'] in zone=Z123456789EXAMPLE
+2025-11-30 16:44:45,895 | INFO | dns_queue.executor | Successfully reconciled record 692cbacda696033dd2038d41 to version 2
+2025-11-30 16:44:45,895 | INFO | dns_queue.executor | Dispatcher dispatcher-1 picked up job for record 692cbacda696033dd2038d42 (target_version=2)
+2025-11-30 16:44:45,896 | INFO | dns_queue.providers | [MockProvider] Would UPSERT CNAME mongo.example.com (TTL=60) values=['cluster-xyz789.mongodb.net'] in zone=Z123456789EXAMPLE
+2025-11-30 16:44:45,896 | INFO | dns_queue.executor | Successfully reconciled record 692cbacda696033dd2038d42 to version 2
+2025-11-30 16:44:45,896 | INFO | __main__ | === After Phase 2 reconciliation ===
+2025-11-30 16:44:45,896 | INFO | __main__ | Current dns_records documents:
+{'_id': '692cbacda696033dd2038d41',
+ 'createdAt': datetime.datetime(2025, 11, 30, 21, 44, 45, 872000),
+ 'spec': {'desiredState': 'PRESENT',
+          'name': 'api.example.com',
+          'ttl': 120,
+          'type': 'A',
+          'values': ['10.0.1.42'],
+          'version': 2,
+          'zoneId': 'Z123456789EXAMPLE'},
+ 'status': {'lastError': None,
+            'lastReconciledAt': datetime.datetime(2025, 11, 30, 21, 44, 45, 894000),
+            'observedVersion': 2,
+            'reconcileStatus': 'IN_SYNC'},
+ 'updatedAt': datetime.datetime(2025, 11, 30, 21, 44, 45, 894000)}
+{'_id': '692cbacda696033dd2038d42',
+ 'createdAt': datetime.datetime(2025, 11, 30, 21, 44, 45, 872000),
+ 'spec': {'desiredState': 'PRESENT',
+          'name': 'mongo.example.com',
+          'ttl': 60,
+          'type': 'CNAME',
+          'values': ['cluster-xyz789.mongodb.net'],
+          'version': 2,
+          'zoneId': 'Z123456789EXAMPLE'},
+ 'status': {'lastError': None,
+            'lastReconciledAt': datetime.datetime(2025, 11, 30, 21, 44, 45, 896000),
+            'observedVersion': 2,
+            'reconcileStatus': 'IN_SYNC'},
+ 'updatedAt': datetime.datetime(2025, 11, 30, 21, 44, 45, 896000)}
+2025-11-30 16:44:45,897 | INFO | __main__ | Simulation complete.
