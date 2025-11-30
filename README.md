@@ -1,48 +1,96 @@
-# dns-provisioning-job-queue
 
-A tiny control-plane style DNS provisioning MVP built with:
 
-- **MongoDB** as the source of truth (`dns_records` collection)
-- **Spec + Status** sub-objects per record
-- An in-memory **job queue** and dispatcher loop
-- A pluggable DNS provider (Mock by default, Route53 optional)
+# DNS Provisioning Job Queue
 
-Flow:
+Automated DNS record provisioning and job queue management
 
-> YAML config → Planner writes/updates Mongo `dns_records` (spec + desired state)  
-> → enqueues reconcile jobs → Dispatcher reconciles each record via provider.
 
-## Document shape (Mongo)
+## Table of Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
 
-Each document in `dns_records` looks like:
 
-```jsonc
-{
-  "_id": "ObjectId",
-  "spec": {
-    "zoneId": "Z123...",
-    "name": "mongo.example.com",
-    "type": "CNAME",
-    "ttl": 60,
-    "values": ["cluster-abc123.mongodb.net"],
-    "desiredState": "PRESENT",
-    "version": 3
-  },
-  "status": {
-    "reconcileStatus": "PENDING",
-    "observedVersion": 2,
-    "lastError": "Some error or null",
-    "lastReconciledAt": "2025-11-29T10:15:00Z"
-  },
-  "createdAt": "2025-11-28T09:00:00Z",
-  "updatedAt": "2025-11-29T10:20:00Z"
-}
+## Overview
 
-## Running Locally
+This project provides a job queue system for automating DNS record provisioning. It is designed to manage, plan, and execute DNS changes efficiently, supporting multiple providers and record types.
+
+## Workflow Diagram
+
+```mermaid
+flowchart TD
+  A["YAML config<br/>User DNS records"] --> B["Planner<br/>Generates desired state<br/>and plans changes"]
+  B --> C["MongoDB<br/>Stores DNS records and status"]
+  C --> D["Job queue<br/>Enqueues reconcile jobs"]
+  D --> E["Dispatcher<br/>Pulls jobs and triggers execution"]
+  E --> F["DNS provider<br/>Executes DNS changes"]
+  F --> G["DNS records updated<br/>at provider"]
+  E --> H["Status updater<br/>Writes record status to MongoDB"]
+```
+
+## Features
+- Job queue for DNS record operations
+- Pluggable provider support
+- Configurable record planning and execution
+- YAML-based configuration for DNS records
+- Modular and extensible codebase
+
+## Getting Started
 
 ### Prerequisites
-- install mongo
-- install poetry and install packages with poetry
+- Python 3.8+
+- [Poetry](https://python-poetry.org/) for dependency management
 
-# Procedure
-- run simulate.py script
+### Installation
+
+Clone the repository:
+```bash
+git clone https://github.com/yourusername/dns-provisioning-job-queue.git
+cd dns-provisioning-job-queue
+```
+
+Install dependencies:
+```bash
+poetry install
+```
+
+## Configuration
+
+Sample configuration files are provided in the `config/` directory:
+- `example-records.yaml`
+- `example-records-v2.yaml`
+
+Edit these files to define your DNS records and job queue settings.
+
+## Usage
+
+To simulate DNS job queue processing:
+```bash
+poetry run python3 -m simulate
+```
+
+To run the main job queue (if applicable):
+```bash
+poetry run python3 -m src.dns_queue.main
+```
+
+## Project Structure
+```
+├── config/                # Example configuration files
+├── src/dns_queue/         # Core package
+│   ├── enums.py           # Enums for job types, statuses, etc.
+│   ├── executor.py        # Job execution logic
+│   ├── main.py            # Main entry point
+│   ├── models.py          # Data models
+│   ├── planner.py         # Planning logic
+│   ├── providers.py       # DNS provider integrations
+│   ├── queue.py           # Job queue implementation
+│   └── __init__.py
+├── simulate.py            # Simulation script
+├── pyproject.toml         # Poetry configuration
+└── README.md              # Project documentation
+```
+
